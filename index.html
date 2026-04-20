@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRILL 2</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"; rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    body {
+        background-color: rgb(188, 109, 34);
+        text-align: center;
+        margin-top: 80px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        background-color: rgb(187, 205, 220);
+        padding: 20px;
+        width: 300px;
+        margin: auto;
+        border: 4px solid #8091a6;
+    }
+
+    button {
+        background-color: steelblue;
+        border-radius: 10px;
+        border-color: 4px solid aliceblue;
+    }
+</style>
+
+</head>
+<body>
+ 
+
+<div class="container">
+    <h2> Heat Index Checker </h2>
+    <p>Note: Input the temperature (°C) and humidity (%), then click "Check" to see the heat index and its status.</p>
+
+    <label for="temp">Degree in °C</label>
+    <input type="number" id="temp" value="25">
+
+    <label for="humidity">Humidity in %</label>
+    <input type="number" id="humidity" value="45">
+    <br> <br>
+
+    <button onclick="checkHeatIndex()">Check</button>
+
+    <div id="result" class="result-box"></div>
+  </div>
+
+<script>
+    function checkHeatIndex() {
+      let T = parseFloat(document.getElementById('temp').value);
+      let RH = parseFloat(document.getElementById('humidity').value);
+
+      let HI = -8.784695 + 
+               1.61139411 * T + 
+               2.338549 * RH + 
+               -0.14611605 * T * RH + 
+               -0.012308094 * (T*T) + 
+               -0.016424828 * (RH*RH) + 
+               0.002211732 * (T*T) * RH + 
+               0.00072546 * T * (RH*RH) + 
+               -0.000003582 * (T*T) * (RH*RH);
+
+      HI = HI.toFixed(1);
+
+      let status = "";
+      let boxClass = "";
+      if (HI < 27) { status = "Comfortable"; boxClass = "status-comfortable"; }
+      else if (HI < 32) { status = "Warm"; boxClass = "status-warm"; }
+      else if (HI < 40) { status = "Hot"; boxClass = "status-hot"; }
+      else { status = "Very Hot"; boxClass = "status-veryhot"; }
+
+      let resultBox = document.getElementById('result');
+      resultBox.style.display = "block";
+      resultBox.className = "result-box " + boxClass;
+      resultBox.innerHTML = "<strong>Heat Index:</strong> " + HI + "°C<br><strong>Status:</strong> " + status;
+    }
+  </script>
+
+
+
+</body>
+</html>
